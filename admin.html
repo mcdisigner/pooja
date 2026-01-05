@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - POOJA DREAM PARIS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Lato', sans-serif; }</style>
+</head>
+<body class="bg-gray-100 h-screen overflow-hidden">
+
+    <!-- Auth Overlay -->
+    <div id="auth-overlay" class="fixed inset-0 bg-gray-900 z-50 flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg shadow-2xl w-96 text-center">
+            <h2 class="text-2xl font-bold mb-4">Admin Login</h2>
+            <p class="text-gray-500 mb-6 text-sm">Enter PIN to manage inventory</p>
+            <input type="password" id="auth-input" class="w-full border border-gray-300 rounded p-3 mb-4 text-center text-2xl tracking-widest focus:outline-none focus:border-blue-500" placeholder="••••" maxlength="4">
+            <button id="auth-btn" class="w-full bg-black text-white py-3 rounded hover:bg-gray-800 transition">Unlock Panel</button>
+            <p class="mt-4 text-xs text-gray-400">Default Code: 1234</p>
+            <a href="index.html" class="block mt-4 text-blue-500 hover:underline text-sm">Back to Shop</a>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="hidden h-full flex flex-col">
+        <!-- Header -->
+        <header class="bg-white shadow z-10">
+            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <h1 class="text-xl font-bold text-gray-800">Inventory Manager</h1>
+                <a href="index.html" class="text-blue-600 hover:underline text-sm">View Store &#8594;</a>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="flex-1 flex overflow-hidden">
+            <!-- Sidebar / Form -->
+            <div class="w-1/3 bg-white border-r p-6 overflow-y-auto hidden md:block">
+                <h3 class="text-lg font-bold mb-6">Add New Item</h3>
+                <form id="add-product-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Cake Name</label>
+                        <input type="text" id="p-title" required class="w-full border p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                        <select id="p-category" class="w-full border p-2 rounded">
+                            <option value="wedding">Wedding</option>
+                            <option value="birthday">Birthday</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Price (LKR)</label>
+                        <input type="number" id="p-price" required class="w-full border p-2 rounded">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                        <input type="url" id="p-image" required placeholder="https://..." class="w-full border p-2 rounded">
+                        <p class="text-xs text-gray-400 mt-1">Right click an image > Copy Image Link</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea id="p-desc" rows="3" class="w-full border p-2 rounded"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 font-bold shadow-lg transition transform hover:scale-[1.02]">Add to Catalog</button>
+                    
+                    <div class="mt-8 p-4 bg-yellow-50 rounded text-xs text-yellow-700 border border-yellow-200">
+                        <strong>Note:</strong> Changes are saved in your browser's local storage. They remain on this device but won't sync to other users unless you deploy a backend database.
+                    </div>
+                </form>
+            </div>
+
+            <!-- List Area -->
+            <div class="flex-1 bg-gray-50 p-6 overflow-y-auto">
+                <div class="bg-white rounded-lg shadow">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-600 text-sm uppercase tracking-wider">
+                                <th class="p-4 border-b">Image</th>
+                                <th class="p-4 border-b">Name</th>
+                                <th class="p-4 border-b">Category</th>
+                                <th class="p-4 border-b">Price</th>
+                                <th class="p-4 border-b">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-product-list" class="text-sm">
+                            <!-- Items here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="products.js"></script>
+    <script src="script.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
