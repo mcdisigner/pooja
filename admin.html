@@ -14,10 +14,19 @@
     <div id="auth-overlay" class="fixed inset-0 bg-gray-900 z-50 flex items-center justify-center">
         <div class="bg-white p-8 rounded-lg shadow-2xl w-96 text-center">
             <h2 class="text-2xl font-bold mb-4">Admin Login</h2>
-            <p class="text-gray-500 mb-6 text-sm">Enter PIN to manage inventory</p>
-            <input type="password" id="auth-input" class="w-full border border-gray-300 rounded p-3 mb-4 text-center text-2xl tracking-widest focus:outline-none focus:border-blue-500" placeholder="••••" maxlength="4">
-            <button id="auth-btn" class="w-full bg-black text-white py-3 rounded hover:bg-gray-800 transition">Unlock Panel</button>
-            <p class="mt-4 text-xs text-gray-400">Default Code: 1234</p>
+            <p class="text-gray-500 mb-6 text-sm">Sign in to manage inventory</p>
+            <div class="space-y-4 text-left">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="auth-email" class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:border-blue-500" placeholder="admin@poojadreamparis.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="auth-password" class="w-full border border-gray-300 rounded p-3 focus:outline-none focus:border-blue-500" placeholder="••••••••">
+                </div>
+            </div>
+            <button id="auth-btn" class="w-full bg-black text-white py-3 rounded hover:bg-gray-800 transition mt-4">Sign In</button>
+            <p class="mt-4 text-xs text-gray-400">Create user in Firebase Console → Authentication</p>
             <a href="index.html" class="block mt-4 text-blue-500 hover:underline text-sm">Back to Shop</a>
         </div>
     </div>
@@ -28,7 +37,10 @@
         <header class="bg-white shadow z-10">
             <div class="container mx-auto px-6 py-4 flex justify-between items-center">
                 <h1 class="text-xl font-bold text-gray-800">Inventory Manager</h1>
-                <a href="index.html" class="text-blue-600 hover:underline text-sm">View Store &#8594;</a>
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="text-blue-600 hover:underline text-sm">View Store &#8594;</a>
+                    <button id="logout-btn" class="text-red-600 hover:underline text-sm">Logout</button>
+                </div>
             </div>
         </header>
 
@@ -93,8 +105,8 @@
         </div>
     </div>
 
-    <script src="products.js"></script>
-    <script src="script.js"></script>
-    <script src="admin.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="script.js"></script>
+    <script type="module" src="admin.js"></script>
 </body>
 </html>

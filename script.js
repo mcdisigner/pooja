@@ -1,29 +1,32 @@
-// Data Management
-const loadProducts = () => {
-    const stored = localStorage.getItem('pooja_products');
-    if (stored) {
-        return JSON.parse(stored);
-    }
-    // Initialize with default data if empty
-    localStorage.setItem('pooja_products', JSON.stringify(initialProducts));
-    return initialProducts;
+import { db } from './firebase-config.js';
+import { collection, getDocs, addDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const PRODUCTS_COLLECTION = 'products';
+
+export const loadProducts = async () => {
+    const snapshot = await getDocs(query(collection(db, PRODUCTS_COLLECTION), orderBy('createdAt', 'desc')));
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-const saveProduct = (product) => {
-    const products = loadProducts();
-    product.id = Date.now(); // Simple ID
-    products.push(product);
-    localStorage.setItem('pooja_products', JSON.stringify(products));
-    return products;
+export const saveProduct = async (product) => {
+    const docRef = await addDoc(collection(db, PRODUCTS_COLLECTION), {
+        ...product,
+        createdAt: new Date().toISOString()
+    });
+    return docRef.id;
 };
 
-const deleteProduct = (id) => {
-    let products = loadProducts();
-    products = products.filter(p => p.id != id);
-    localStorage.setItem('pooja_products', JSON.stringify(products));
-    return products;
+export const deleteProduct = async (id) => {
+    await deleteDoc(doc(db, PRODUCTS_COLLECTION, id));
 };
 
-const formatPrice = (price) => {
+export const formatPrice = (price) => {
     return 'LKR ' + parseInt(price).toLocaleString();
+};
+
+export const subscribeToProducts = (callback) => {
+    return onSnapshot(query(collection(db, PRODUCTS_COLLECTION), orderBy('createdAt', 'desc')), (snapshot) => {
+        const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        callback(products);
+    });
 };

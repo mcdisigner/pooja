@@ -1,12 +1,14 @@
+import { loadProducts, saveProduct, deleteProduct, formatPrice, subscribeToProducts } from './script.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
     const productGrid = document.getElementById('product-grid');
     const categoryButtons = document.querySelectorAll('.category-btn');
-    const heroTitle = document.getElementById('hero-title');
 
-    let allProducts = loadProducts();
+    let allProducts = [];
     let currentCategory = 'all';
+    let unsubscribe = null;
 
     // Mobile Menu Toggle
     mobileMenuButton.addEventListener('click', () => {
@@ -60,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Category Filtering
     categoryButtons.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            // Update Active State
             categoryButtons.forEach(b => {
                 b.classList.remove('bg-pink-600', 'text-white');
                 b.classList.add('bg-white', 'text-gray-600');
@@ -73,20 +74,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Initial Render
-    renderProducts('all');
+    // Subscribe to real-time updates
+    unsubscribe = subscribeToProducts((products) => {
+        allProducts = products;
+        renderProducts(currentCategory);
+    });
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+        if (unsubscribe) unsubscribe();
+    });
 });
 
 // Order Function
 function orderProduct(title) {
-    // CONTACT NUMBER - SHOP OWNER (Change this to your number)
-    const phoneNumber = "94724955460"; // Format: 947xxxxxxxxx (without +)
+    const phoneNumber = "94724955460";
 
     const message = `Halo, Pooja Dream Paris! 🌸\n\nMata me cake eka order karanna ona: *${title}*\n\nPrice/Wisthara danaganna puluwanda?`;
     
-    // Create WhatsApp Link
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    
-    // Open in new tab
     window.open(url, '_blank');
 }
+
+// Make orderProduct globally accessible
+window.orderProduct = orderProduct;
